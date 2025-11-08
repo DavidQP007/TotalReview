@@ -1,0 +1,32 @@
+# Entornos virtuales
+venv/
+.env/
+.conda/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Datos y resultados
+data/raw/*
+data/processed/*
+results/*
+models/*
+
+# Archivos de configuración local
+*.env
+config/local_settings.py
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Archivos de logs
+*.log
+logs/
+
+# Archivos de sistema
+Thumbs.db
