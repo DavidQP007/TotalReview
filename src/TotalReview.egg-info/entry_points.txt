@@ -1,0 +1,4 @@
+[console_scripts]
+totalreview = src.cli.main:main
+totalreview-prisma = src.cli.prisma:main
+totalreview-screen = src.cli.screen:main
