@@ -56,7 +56,7 @@ def main():
         logging.info(f"   • Artículos retractados: {df['Retracted'].sum()}")
         logging.info(f"   • Artículos de revista: {df['IsJournalArticle'].sum()}")
         
-        print("\n📋 Ejemplo de los primeros 2 artículos:")
+        print("\n Ejemplo de los primeros 2 artículos:")
         print(df.head(2).to_string(index=False))
         
     except Exception as e:

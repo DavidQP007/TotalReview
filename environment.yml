@@ -5,7 +5,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.12
+  - python=3.10
   - pandas=2.0.3
   - numpy=1.24.3
   - tqdm=4.66.1
@@ -21,10 +21,10 @@ dependencies:
     - torchaudio==2.1.0
     - transformers==4.35.0
     - datasets==2.14.5
-    - huggingface_hub==0.19.4
-    - accelerate==0.25.0
+    - huggingface_hub
+    - accelerate
     - sentence-transformers==2.2.2
-    - pymed==5.0.0
+    - pymed==0.8.9
     - bertopic==0.15.0
     - networkx==3.1
     - pyvis==0.3.2

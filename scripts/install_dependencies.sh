@@ -1,51 +1,39 @@
 #!/bin/bash
 # =========================================
-# Instalador TotalReview - 100% Open Source
+# Instalador Simplificado de TotalReview
 # =========================================
 
-echo "🚀 Instalador TotalReview v0.1.0"
-echo "🌍 Sistema open source para revisiones sistemáticas y metaanálisis"
+echo "🚀 Instalador TotalReview v0.2.0"
 echo "========================================"
 
-# Verificar si conda está instalado
+# 1. Verificar si conda está instalado
 if ! command -v conda &> /dev/null; then
-    echo "❌ Conda no encontrado. Por favor instala Miniconda/Anaconda primero:"
-    echo "   https://docs.conda.io/en/latest/miniconda.html"
+    echo "❌ Conda no encontrado. Por favor, instálalo primero."
     exit 1
 fi
 
-echo "🧹 Eliminando entorno previo (si existe)..."
-conda remove -n TotalReview --all -y 2>/dev/null || true
+# 2. Definir la ruta al archivo de entorno de forma robusta
+# Esto asegura que el script se puede ejecutar desde cualquier ubicación
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+ENV_FILE="$SCRIPT_DIR/../environment.yml"
 
-echo "🆕 Creando entorno Conda desde environment.yml..."
-conda env create -f ../environment.yml
-
-# Activar entorno
-source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate TotalReview
-
-echo "🧠 Detectando hardware para PyTorch..."
-if command -v nvidia-smi &> /dev/null; then
-    echo "🎮 GPU NVIDIA detectada. Instalando versión con CUDA 13.0..."
-    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130
-else
-    echo "💻 No se detectó GPU. Instalando versión CPU..."
-    pip install torch torchvision torchaudio cpuonly
+if [ ! -f "$ENV_FILE" ]; then
+    echo "❌ No se encontró el archivo environment.yml en la ruta: $ENV_FILE"
+    exit 1
 fi
 
-echo "🛠️ Instalando dependencias adicionales..."
-pip install transformers datasets huggingface_hub accelerate sentence-transformers
-pip install pymed bertopic networkx pyvis pybliometrics rapidfuzz
+echo "🧹 Eliminando el entorno 'TotalReview' previo (si existe) para una instalación limpia..."
+conda remove -n TotalReview --all -y
 
-echo "🔧 Instalando TotalReview como paquete editable..."
-pip install -e .
-
-echo "✅ ¡Instalación completada correctamente!"
-echo "========================================"
-echo "🚀 Para activar tu entorno:"
-echo "conda activate TotalReview"
-echo ""
-echo "🧪 Para probar la instalación:"
-echo "python -c \"import totalreview; print('Versión:', totalreview.__version__)\""
-echo ""
-echo "📚 Documentación: https://github.com/DavidQP007/TotalReview"
+echo "🆕 Creando el nuevo entorno Conda 'TotalReview'. Esto puede tardar varios minutos..."
+# 3. Crear el entorno usando únicamente el archivo yml.
+# Esta es la única fuente de verdad y el método más fiable.
+if conda env create -f "$ENV_FILE"; then
+    echo "✅ ¡Entorno 'TotalReview' creado exitosamente!"
+    echo "========================================"
+    echo "🚀 Para activar tu entorno, ejecuta:"
+    echo "conda activate TotalReview"
+else
+    echo "❌ Error al crear el entorno Conda. Revisa los mensajes de error de arriba."
+    exit 1
+fi
